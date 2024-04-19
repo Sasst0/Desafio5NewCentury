@@ -6,6 +6,7 @@ namespace NC_AdvinhaNum.Controllers
 {
     public class AdvinhaNumController : Controller
     {
+        #region Injeção de Dependencia
         private readonly ILogger<AdvinhaNumController> _logger;
         private readonly Contexto _contexto;
         public AdvinhaNumController(ILogger<AdvinhaNumController> logger, Contexto contexto)
@@ -13,7 +14,9 @@ namespace NC_AdvinhaNum.Controllers
             _logger = logger;
             _contexto = contexto;
         }
+        #endregion
 
+        #region Index
         public IActionResult Index()
         {
             return View();
@@ -23,14 +26,17 @@ namespace NC_AdvinhaNum.Controllers
         {
             return View();
         }
+        #endregion
 
-
+        #region Enum Resultado
         public enum Resultado
         {
             SUCCESS,
             WRONG
         }
+        #endregion
 
+        #region Salvar Tentativa
         public string TentarComc(string dif, int NUM_TENTATIVA, int COD_JOGADOR, string esc)
         {
 
@@ -51,7 +57,9 @@ namespace NC_AdvinhaNum.Controllers
             _contexto.SaveChanges();
             return retorno;
         }
+        #endregion
 
+        #region Rank
         public static Rank[] Ranks = new Rank[]
        {
             new Rank(80, 100, "A"),
@@ -61,6 +69,24 @@ namespace NC_AdvinhaNum.Controllers
             new Rank(0, 19, "E"),
        };
 
+        public string ObterRank(int numeroJogador)
+        {
+            var jogador = PegarTentativa(numeroJogador);
+            var porcentagemDeVitoria = CalcularPorcentagemDeVitoria(jogador);
+
+            foreach (var rank in Ranks)
+            {
+                if (porcentagemDeVitoria >= rank.Minimo && porcentagemDeVitoria <= rank.Maximo)
+                {
+                    return rank.Descricao;
+                }
+            }
+
+            return "Sem Rank";
+        }
+        #endregion
+
+        #region Popula histórico Detalhado
         public IEnumerable<AdvinhaNumerocs> HistoricoDetalhado(int COD_JOGADOR)
         {
             var pegarhistoricoDetalhado = new AdvinhaNumerocs
@@ -80,7 +106,9 @@ namespace NC_AdvinhaNum.Controllers
             });
             return DadosLimpos;
         }
+        #endregion
 
+        #region Limpar Histórico
         public void LimpaHistorico()
         {
             var dados = _contexto.AdvinhaNC.ToList();
@@ -91,7 +119,9 @@ namespace NC_AdvinhaNum.Controllers
 
             }
         }
+        #endregion
 
+        #region Calculo Porcentagem de Vitória
         public double CalcularPorcentagemDeVitoria(List<AdvinhaNumerocs> jogador)
         {
             int totalJogos = jogador.Count;
@@ -108,23 +138,9 @@ namespace NC_AdvinhaNum.Controllers
             int sucesso = dadosjogador.Count(rr => rr.Resultado == "SUCCESS");
             return (double)sucesso / dadosjogador.Count * 100;
         }
+        #endregion
 
-        public string ObterRank(int numeroJogador)
-        {
-            var jogador = PegarTentativa(numeroJogador);
-            var porcentagemDeVitoria = CalcularPorcentagemDeVitoria(jogador);
-
-            foreach (var rank in Ranks)
-            {
-                if (porcentagemDeVitoria >= rank.Minimo && porcentagemDeVitoria <= rank.Maximo)
-                {
-                    return rank.Descricao;
-                }
-            }
-
-            return "Sem Rank";
-        }
-
+        #region Busca Jogador
         public List<AdvinhaNumerocs> PegarTentativa(int COD_JOGADOR)
         {
             var pegarTentativa = new AdvinhaNumerocs
@@ -135,7 +151,9 @@ namespace NC_AdvinhaNum.Controllers
             return _contexto.AdvinhaNC.Where(mt => mt.COD_JOGADOR == COD_JOGADOR).ToList();
 
         }
+        #endregion
 
+        #region Busca Histórico Geral
         public IEnumerable<AdvinhaNumerocs> HistoricoGeral()
         {
             var pesquisa = _contexto.AdvinhaNC.ToList();
@@ -160,7 +178,9 @@ namespace NC_AdvinhaNum.Controllers
 
             return DadosLimpos;
         }
+        #endregion
 
+        #region Gera Número Aleatório
         private int GerarNumeroSecreto(string dif)
         {
             Random random = new Random();
@@ -186,5 +206,6 @@ namespace NC_AdvinhaNum.Controllers
             }
             return numero;
         }
+        #endregion
     }
 }
