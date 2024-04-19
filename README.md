@@ -1,6 +1,6 @@
 # Jogo de adivinhação de numero inteiro.
 
-Esta API REST permite o gerenciar os Usuários da sua aplicação, fornecendo operações de CRUD de um Usuário. Ela foi desenvolvida utilizando .NET 6.0 e utiliza as tecnologias EF Core e SQLServer para persistência de dados.
+Este é um jogo dinamico de adivinhação desenvolvido para um processo seletivo. O projeto  foi desenvolvido utilizando .NET 6.0 e utiliza as tecnologias EF Core e SQLite para persistência de dados.
 
 # :hammer: Como utilizar 
 
@@ -12,7 +12,6 @@ Execute o projeto e comece a usar :).
 # :gear: Estrutura do Projeto 
 
 - `Controllers`: Os controladores são responsáveis por lidar com as requisições HTTP e direcioná-las para os serviços apropriados.
-- `Domain`: Nesta camada deixo apenas models e interfaces que irei utilizar dentro o Data.
 
 # :rocket: Tecnologias utilizadas 
 - `.NET`
