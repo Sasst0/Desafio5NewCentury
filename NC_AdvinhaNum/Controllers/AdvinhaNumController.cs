@@ -43,7 +43,7 @@ namespace NC_AdvinhaNum.Controllers
             var AdicionarNC = new AdvinhaNumerocs
             {
                 COD_JOGADOR = COD_JOGADOR,
-                NUM_TENTATIVA = tentativa.Count,
+                NUM_TENTATIVA = tentativa.Count + 1,
                 HorarioTentativa = DateTime.Now.ToLocalTime(),
                 Resultado = retorno,
             };
@@ -76,7 +76,7 @@ namespace NC_AdvinhaNum.Controllers
                 NUM_TENTATIVA = rr.NUM_TENTATIVA,
                 DataFormatada = rr.HorarioTentativa.ToString("dd/MM/yyyy, HH:mm:ss"),
                 Porcentagem = CalcularPorcentagemDeVitoriaJogador(rr.COD_JOGADOR),
-                Resultado = ObterRank(rr.COD_JOGADOR)
+                Resultado = rr.Resultado
             });
             return DadosLimpos;
         }
