@@ -113,6 +113,7 @@
                 </div>
             </div>
         </div>
+        </br>
         <div class="row">
             <div id="HistoricoNC-tabela" class="tabulator"></div>
         </div>
@@ -149,7 +150,7 @@
                     resizableRows: false,
                     columns: [
                         { title: "Jogador", field: "coD_JOGADOR" },
-                        { title: "Horário", field: "horarioTentativa" },
+                        { title: "Horário", field: "dataFormatada" },
                         { title: "Tentativas", field: "nuM_TENTATIVA" },
                         { title: "Resultado", field: "resultado" },
                         { title: "Vitória %", field: "porcentagem" }
@@ -220,17 +221,25 @@
         var NUM_TENTATIVA = $("#NUM_TENTATIVA").val();
         var COD_JOGADOR = $("#COD_JOGADOR").val();
         var escolha = $("#Escolha").val();
-        $.ajax({
-            url: "../AdvinhaNum/TentarComc?dif=" + Dificuldade + "&NUM_TENTATIVA=" + NUM_TENTATIVA + "&COD_JOGADOR=" + COD_JOGADOR + "&esc=" + escolha,
-            method: "GET",
-            success: function(data) {
-                if (data == "SUCCESS") {
-                    toastr.success("Parabéns você acertou!!");
-                } else {
-                    toastr.error("Você errou! tente novamente");
+        if (NUM_TENTATIVA == '') {
+            toastr.error("Faça seu Palpite");
+        }
+        if (COD_JOGADOR == '') {
+           toastr.error("Insira o número do Jogador");
+        }
+        else {
+            $.ajax({
+                url: "../AdvinhaNum/TentarComc?dif=" + Dificuldade + "&NUM_TENTATIVA=" + NUM_TENTATIVA + "&COD_JOGADOR=" + COD_JOGADOR + "&esc=" + escolha,
+                method: "GET",
+                success: function(data) {
+                    if (data == "SUCCESS") {
+                        toastr.success("Parabéns você acertou!!");
+                    } else {
+                        toastr.error("Você errou! tente novamente");
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
 </script>

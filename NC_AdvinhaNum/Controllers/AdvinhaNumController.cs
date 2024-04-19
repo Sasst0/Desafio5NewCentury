@@ -7,16 +7,11 @@ namespace NC_AdvinhaNum.Controllers
     public class AdvinhaNumController : Controller
     {
         private readonly ILogger<AdvinhaNumController> _logger;
-        public Dictionary<string, DificuldadeJogo> Dificuldades { get; }
         private readonly Contexto _contexto;
         public AdvinhaNumController(ILogger<AdvinhaNumController> logger, Contexto contexto)
         {
             _logger = logger;
             _contexto = contexto;
-            Dificuldades = new Dictionary<string, DificuldadeJogo>();
-            Dificuldades.Add("Fácil", new DificuldadeJogo("Fácil", 7));
-            Dificuldades.Add("Médio", new DificuldadeJogo("Médio", 5));
-            Dificuldades.Add("Difícil", new DificuldadeJogo("Difícil", 3));
         }
 
         public IActionResult Index()
